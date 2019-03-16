@@ -42,9 +42,11 @@ function createFireworkParticle()
 		end
 
 		-- if exceeded the bottom, deActive it
-		if self.position.y < particle.bottomEdge then
+		if self.position.y < particle.bottomEdge or self.position.y > top then
 			self.isAlive = false
 		end
+
+
 	
 		-- life time
 		if self.timerAlive > 0 then

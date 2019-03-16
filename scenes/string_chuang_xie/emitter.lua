@@ -65,7 +65,8 @@ function createStringEmitter(image, colorr, bottomE, aliveT, oY)
 				-- particle1:update(dt) -- Push first particle 3 steps ahead		
 				particle1.scale = self.particleScale
 				particle1.dimTime = self.timerEmission
-				particle1.dimColor = color(77/ 255, 192/ 255, 134 / 255, 1)
+				-- particle1.dimColor = color(77/ 255, 192/ 255, 134 / 255, 1)
+				particle1.dimColor = colorCopy(self.color)
 				particle1.color:copy(self.highlightColor)				
 				particle1.bottomEdge = self.bottomEdge
 			end

@@ -50,7 +50,7 @@ function createString(x, y, color, delay, dirX, dirY, aliveTime)
 		emitter2.innerEmission = emitter2.timerEmission / 2
 	end
 
-	for i = 1, 50 do -- Add particles to custom emitter		
+	for i = 1, 10 do -- Add particles to custom emitter		
 		emitter:addParticle(createFireworkParticle())	
 		emitter2:addParticle(createFireworkParticle())	
 	end
@@ -70,10 +70,11 @@ end
 speed = 10
 interval = 1.5 / speed * 2
 
-mid = bottom + (top  - bottom) * 0.5
+newTop = top + 10
+mid = bottom + (newTop  - bottom) * 0.5
 
 for i = left, right, 1 do
-	local randomY = math.random() * (top - mid) + mid
+	local randomY = math.random() * (newTop - mid) + mid
 	local aliveTime = math.random() * 5
 	createString(i, randomY, HACK_BLUE, interval, 0, -speed, aliveTime) 
 end
