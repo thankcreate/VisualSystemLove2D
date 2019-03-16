@@ -1,3 +1,11 @@
+-- global config
+factor = 2
+speed = 10  
+interval = 1.5 / speed * 2 / factor
+overAllScaleFactor = 1 / factor
+step = 0.8 / factor -- step on x
+
+
 require(globalScenePath .. 'emitter')
 require(globalScenePath .. 'particle')
 require(globalScenePath .. 'image_analyzer')
@@ -5,7 +13,7 @@ require(globalScenePath .. 'image_analyzer')
 bgColor = color(0.1, 0.1, 0.1, 1)
 
 
-
+-- canvas property
 left = -19
 right = 19
 top = 35
@@ -36,31 +44,31 @@ bgMesh = createMeshRectangle(left, right, top, bottom, bgColor, bgColor, bgColor
 bgObject = createObjectShape(bgMesh, vector(0, 0, 0), nil)
 
 -- create a shader
-shaderTexSample = createShader("shaders/v_basic.vert", "shaders/f_sample.frag")
+-- shaderTexSample = createShader("shaders/v_basic.vert", "shaders/f_sample.frag")
 
-uniformTextureOffset = vector(0, 0)
-uniformTextureScale = 1.0
+-- uniformTextureOffset = vector(0, 0)
+-- uniformTextureScale = 1.0
 
-function shaderTexSample:updateUniforms() -- Send updated uniforms to the shader
+-- function shaderTexSample:updateUniforms() -- Send updated uniforms to the shader
 
-	local s = self.source
-	local m = flipMatrix(uniformWorldViewProj) -- Matrix sent to shader needs to be switched from column-major to row-major
+-- 	local s = self.source
+-- 	local m = flipMatrix(uniformWorldViewProj) -- Matrix sent to shader needs to be switched from column-major to row-major
 	
-	if s:hasUniform("worldViewProj") then s:send("worldViewProj", m) end
-	if s:hasUniform("textureOffset") then s:send("textureOffset", { uniformTextureOffset.x, uniformTextureOffset.y }) end
-	if s:hasUniform("textureScale") then s:send("textureScale", uniformTextureScale) end
+-- 	if s:hasUniform("worldViewProj") then s:send("worldViewProj", m) end
+-- 	if s:hasUniform("textureOffset") then s:send("textureOffset", { uniformTextureOffset.x, uniformTextureOffset.y }) end
+-- 	if s:hasUniform("textureScale") then s:send("textureScale", uniformTextureScale) end
 
-end
+-- end
 
-mesh = createMeshRectangle(left, right, bottom, top, bgColor, bgColor, bgColor, bgColor) -- Create the mesh
--- object = createObjectShape(mesh, vector(0, 0, 0), nil)
-object = createObjectShape(mesh, vector(0, 0, -1), nil) -- Create the object (as child of objectRoot)
+-- mesh = createMeshRectangle(left, right, bottom, top, bgColor, bgColor, bgColor, bgColor) -- Create the mesh
+-- -- object = createObjectShape(mesh, vector(0, 0, 0), nil)
+-- object = createObjectShape(mesh, vector(0, 0, -1), nil) -- Create the object (as child of objectRoot)
 
-object.shader = shaderTexSample
-object.texture = createTexture("images/bkg2.png", true)
+-- object.shader = shaderTexSample
+-- object.texture = createTexture("images/bkg2.png", true)
 
-object.texture:setWrap("repeat", "repeat") -- Options include: "clamp", "repeat", "mirroredrepeat" 
-object.texture:setFilter("linear", "linear") -- Options include: "nearest", "linear"
+-- object.texture:setWrap("repeat", "repeat") -- Options include: "clamp", "repeat", "mirroredrepeat" 
+-- object.texture:setFilter("linear", "linear") -- Options include: "nearest", "linear"
 
 
 
@@ -113,17 +121,14 @@ function createFirework(x, y, color, delay, dirX, dirY, destY, needScaleT, parti
 end
 
 -- Create emitters
-factor = 2
-speed = 10
-interval = 1.5 / speed * 2 / factor
-overAllScaleFactor = 1 / factor
+
 
 
 HACK_BLUE = color(77/ 255, 192/ 255, 134 / 255, 1)
 -- createFirework(0, 24, HACK_BLUE, interval, 0, -speed) 
 
 -- bottom
-local step = 1 / factor
+
 for i = cLeft, cRight, step / 2 do
 	local perc = (i - cLeft) / cWidth
 
@@ -152,7 +157,7 @@ for i = cLeft, cRight, step / 2 do
 	local speedY = speed
 	local speedX = speedY * diffX / diffY
 
-	createFirework(i, cTop, HACK_BLUE, interval, speedX, speedY, destY, true, vector(0.05, 0.05)) 		
+	createFirework(i, cTop -0.2 , HACK_BLUE, interval, speedX, speedY, destY, true, vector(0.05, 0.05)) 		
 end
 
 local edgeScaleXEnd = 0.1
@@ -192,6 +197,14 @@ for i = cLeft, left, -step do
 
 	createFirework(curX, curY, HACK_BLUE, interval, speedX, speedY, destY, false, vector(scaleX, 0.05)) 	
 	
+end
+
+-- center
+for i = cLeft, cRight, step * 0.5 do
+	local speedY = -speed
+	local speedX = 0
+	local destY = cBottom
+	createFirework(i, cTop, HACK_BLUE, interval, speedX, speedY, destY, false, vector(0.05, 0.05)) 	
 end
 
 -- Create description text

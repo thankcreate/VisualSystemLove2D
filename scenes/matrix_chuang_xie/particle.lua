@@ -64,6 +64,15 @@ function createWallParticle()
 				self.scale.y = self.startScale.y * overAllScaleFactor
 			end
 
+			local intI = (self.position.x - left) / width * (bkgColorWidth - 1) + 1
+			local intJ = (top - self.position.y) / height * (bkgColorHeight - 1) + 1
+			intI = math.min( math.floor(intI), bkgColorWidth)
+			intI = math.max( intI, 1 )
+			intJ = math.min( math.floor(intJ), bkgColorHeight)
+			intJ = math.max( intJ, 1 )
+
+			self.color = colorCopy(bkgColor[intI][intJ])
+
 			self.timerAlive = self.timerAlive - dt			
 		else
 		
