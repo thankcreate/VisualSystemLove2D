@@ -57,8 +57,11 @@ function createWallParticle()
 			
 			if self.needScaleTransit then 
 				local perc = (self.position.y - self.startY) / (self.destY - self.startY)
-				self.scale.x = self.startScale.x + (self.endScale.x - self.startScale.x) * perc
-				self.scale.y = self.startScale.y + (self.endScale.y - self.startScale.y) * perc
+				self.scale.x = (self.startScale.x + (self.endScale.x - self.startScale.x) * perc ) * overAllScaleFactor
+				self.scale.y = (self.startScale.y + (self.endScale.y - self.startScale.y) * perc ) * overAllScaleFactor
+			else 
+				self.scale.x = self.startScale.x * overAllScaleFactor
+				self.scale.y = self.startScale.y * overAllScaleFactor
 			end
 
 			self.timerAlive = self.timerAlive - dt			

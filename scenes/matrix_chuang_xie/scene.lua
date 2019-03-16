@@ -1,7 +1,9 @@
 require(globalScenePath .. 'emitter')
 require(globalScenePath .. 'particle')
+require(globalScenePath .. 'image_analyzer')
 
 bgColor = color(0.1, 0.1, 0.1, 1)
+
 
 
 left = -19
@@ -111,14 +113,17 @@ function createFirework(x, y, color, delay, dirX, dirY, destY, needScaleT, parti
 end
 
 -- Create emitters
+factor = 2
 speed = 10
-interval = 1.5 / speed * 2
+interval = 1.5 / speed * 2 / factor
+overAllScaleFactor = 1 / factor
+
 
 HACK_BLUE = color(77/ 255, 192/ 255, 134 / 255, 1)
 -- createFirework(0, 24, HACK_BLUE, interval, 0, -speed) 
 
 -- bottom
-local step = 1
+local step = 1 / factor
 for i = cLeft, cRight, step / 2 do
 	local perc = (i - cLeft) / cWidth
 

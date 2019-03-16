@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------
--- Firework Emitter
+-- Wall Emitter
 -----------------------------------------------------------------------------------------------
 function createWallEmitter(image, color, y)
 
@@ -19,9 +19,6 @@ function createWallEmitter(image, color, y)
 	customEmitter.needScaleTransit = false
 	customEmitter.particleScale = vector(0.05, 0.05)
 
-	customEmitter.scale = vector(0.1, 0.1)
-
-	
 	function customEmitter:setDir(x, y)
 	
 		self.dirX = x
@@ -44,7 +41,9 @@ function createWallEmitter(image, color, y)
 			
 				particle1:start(self.position.x, self.position.y, rx, ry, self.destY)
 				-- particle1:update(dt) -- Push first particle 3 steps ahead		
-				particle1.scale = self.particleScale
+				
+				particle1.scale = vectorCopy(self.particleScale)
+				particle1.startScale = vectorCopy(self.particleScale)
 				particle1.needScaleTransit = self.needScaleTransit
 				particle1.color:copy(self.color)
 			end
