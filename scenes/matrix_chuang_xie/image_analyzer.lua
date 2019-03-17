@@ -19,7 +19,7 @@ for i = 1, bkgColorWidth do
     end
 end
 
--- bkgColorAv = {}
+-- bkgColorAv = {} 
 
 -- bkgColorAvWidth = (width) / step
 -- bkgColorAvHeight = (height) / step
