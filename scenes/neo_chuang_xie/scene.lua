@@ -74,15 +74,15 @@ bgObject = createObjectShape(bgMesh, vector(0, 0, 0), nil)
 
 -- Function for making a firework (an object with an emitter)
 randomCounter = 0
-function createFirework(x, y, color, delay, dirX, dirY, destY, needScaleT, particleScale)
+function createFirework(x, y, color, delay, dirX, dirY, destY, needScaleT, particleScale, firstDelayCount)
 
 	-- Create particle system	
 	-- local image = love.graphics.newImage(globalScenePath .. "images/particle1.png")
 	local image = love.graphics.newImage(globalScenePath .. "images/zero.png")
 	local image2 = love.graphics.newImage(globalScenePath .. "images/one.png")
 	
-	local emitter = createWallEmitter(image, color, destY)
-	local emitter2 = createWallEmitter(image2, color, destY)
+	local emitter = createWallEmitter(image, color, destY, firstDelayCount)
+	local emitter2 = createWallEmitter(image2, color, destY, firstDelayCount)
 
 	emitter.needScaleTransit = needScaleT
 	emitter2.needScaleTransit = needScaleT
@@ -97,12 +97,14 @@ function createFirework(x, y, color, delay, dirX, dirY, destY, needScaleT, parti
 	if rem == 1 then
 		emitter.innerEmission = emitter.timerEmission / 2
 	end
+	emitter.innerEmission = emitter.innerEmission + emitter.firstDelayCount * emitter.timerEmission
 
 	emitter2.timerEmission = delay
 	emitter2:setDir(dirX, dirY)
 	if rem == 0 then
 		emitter2.innerEmission = emitter2.timerEmission / 2
 	end
+	emitter2.innerEmission = emitter2.innerEmission + emitter2.firstDelayCount * emitter2.timerEmission
 
 	for i = 1, 100 do -- Add particles to custom emitter		
 		emitter:addParticle(createWallParticle())	
@@ -135,7 +137,11 @@ for i = cLeft, cRight, step * 0.5 do
 	local speedY = -speed
 	local speedX = 0
 	local destY = cBottom
-	createFirework(i, cTop, HACK_BLUE, interval, speedX, speedY, destY, false, vector(0.05, 0.05)) 	
+	local rand = math.random()
+	rand = 1- rand * rand
+	-- local delayCount = math.floor(math.random() / 0.5) / 2
+	local delayCount = math.random(1, 10)
+	createFirework(i, cTop, HACK_BLUE, interval, speedX, speedY, destY, false, vector(0.05, 0.05), delayCount) 	
 end
 
 -- Create description text

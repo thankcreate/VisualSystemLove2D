@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------------
 -- Wall Emitter
 -----------------------------------------------------------------------------------------------
-function createWallEmitter(image, color, y)
+function createWallEmitter(image, color, y, firstDelayCount)
 
 	customEmitter = createEmitter(image)
 	
@@ -18,6 +18,7 @@ function createWallEmitter(image, color, y)
 
 	customEmitter.needScaleTransit = false
 	customEmitter.particleScale = vector(0.05, 0.05)
+	customEmitter.firstDelayCount = firstDelayCount
 
 	function customEmitter:setDir(x, y)
 	
