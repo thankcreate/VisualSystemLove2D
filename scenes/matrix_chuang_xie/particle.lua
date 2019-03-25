@@ -73,6 +73,8 @@ function createWallParticle()
 
 			self.color = colorCopy(bkgColor[intI][intJ])
 
+		
+
 			self.timerAlive = self.timerAlive - dt			
 		else
 		

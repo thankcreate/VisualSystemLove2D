@@ -10,6 +10,16 @@ require(globalScenePath .. 'emitter')
 require(globalScenePath .. 'particle')
 require(globalScenePath .. 'image_analyzer')
 
+-- music start
+src1 = love.audio.newSource(globalScenePath .."musics/Don Davis - Navras.mp3", "static")
+
+ 
+src1:setVolume(0.9) -- 90% of ordinary volume
+
+src1:play()
+
+-- music end
+
 bgColor = color(0.1, 0.1, 0.1, 1)
 
 
