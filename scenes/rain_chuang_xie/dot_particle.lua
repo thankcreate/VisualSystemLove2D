@@ -48,7 +48,7 @@ function createDotParticle()
 		-- self.scale = vector(scaleV, scaleV)
 		
 		
-		-- self.color.a = self.timerAlive / self.maxAliveTime * 0.2 + 0.8
+		self.color.a = self.timerAlive / self.maxAliveTime * 0.2 + 0.8
 		self.velocity.y = self.velocity.y - dt *  2
 		self.direction = vector(self.velocity.x, self.velocity.y)
 
