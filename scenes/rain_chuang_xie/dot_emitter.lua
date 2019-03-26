@@ -39,8 +39,7 @@ function createDotEmitter(image, colorr, aliveT)
 				
 					particle1:start(self.oriX, self.oriY, self.aliveTime)	
 					particle1.scale = self.particleScale			
-					particle1.color:copy(self.color)			
-				
+					particle1.color:copy(self.color)						
 
 					particle1:setDir((i - 2) * (math.random() + 1), 1 + math.random() * 2)
 				end

@@ -61,7 +61,7 @@ function createDirtParticle()
 		end
 		
 
-		self.position.x = self.oriX + (math.sin(self.totalTime * 0.5 + self.phase ) * self.amplitude) -- Update position with velocity X
+		self.position.x = self.oriX + (math.sin(self.totalTime * DIRT_FREQUENCY + self.phase ) * self.amplitude * DIRT_AMPLITUDE) -- Update position with velocity X
 		self.position.y = self.position.y + (self.velocity.y * self.system.motionScale) -- Update position with velocity Y
 		
 	

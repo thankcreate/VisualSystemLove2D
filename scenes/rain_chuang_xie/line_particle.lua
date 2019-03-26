@@ -38,7 +38,7 @@ function createFireworkParticle()
 	
 	function particle:update(dt)
 	
-		self.color.a = self.timerAlive / self.maxAliveTime * 0.2 + 0.8
+		self.color.a = self.timerAlive / self.maxAliveTime * 0.5 + 0.5
 
 		-- the newly emitted particle should be brighter
 		self.dimTime = self.dimTime - dt	

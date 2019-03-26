@@ -71,11 +71,16 @@ function createRainEmitter(image, colorr, bottomEdge, aliveT, oX, oY)
 	
 
 		if self.headY < self.bottomEdge then
-			self.circleEmitter:setPosition(self.headX, self.headY)	
-			self.circleEmitter:start()
+			if self.circleEmitter then
+				self.circleEmitter:setPosition(self.headX, self.headY)	
+				self.circleEmitter:start()
+			end
 
-			self.dotEmitter:setPosition(self.headX, self.headY)	
-			self.dotEmitter:start()
+			if self.dotEmitter then
+				self.dotEmitter:setPosition(self.headX, self.headY)	
+				self.dotEmitter:start()
+			end
+
 			
 
 

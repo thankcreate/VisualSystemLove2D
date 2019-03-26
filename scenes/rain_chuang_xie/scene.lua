@@ -1,3 +1,12 @@
+
+
+RAIN_HEAVY = 4 -- smaller the heavier
+RAIN_DIRECTION_X_DIV = 4 -- infinite means vertical, close to 0 means horizontal
+
+DIRT_HEAVY = 5 -- smaller the heavier
+DIRT_FREQUENCY = 0.5 -- dirt frequency 0.5 by default
+DIRT_AMPLITUDE = 1 -- dirt amplitude 1 by default
+
 require(globalScenePath .. 'line_emitter')
 require(globalScenePath .. 'line_particle')
 require(globalScenePath .. 'circle_particle')
@@ -8,9 +17,7 @@ require(globalScenePath .. 'dirt_particle')
 require(globalScenePath .. 'dirt_emitter')
 
 
-RAIN_HEAVY = 6 -- smaller the heavier
-DIRT_HEAVY = 5 -- smaller the heavier
-RAIN_DIRECTION_X_DIV = 4 -- infinate means vertical, close to 0 means horizontal
+
 
 bgColor = color(0.1, 0.1, 0.1, 1)
 
@@ -180,11 +187,7 @@ for i = left + 2, right - 2, DIRT_HEAVY do
 	createDirt(i, randomY, DIRT_COLOR, 3.5) 
 end
 
-
-
-
 -- Create description text
-
 line1 = "TRON XIE 2019\n"
 line2 = "THIS IS YOUR LAST CHANCE. AFTER THIS, THERE IS NO TURNING BACK.\nYOU TAKE THE BLUE PILL - THE STORY ENDS, YOU WAKE UP IN YOUR BED AND BELIEVE WHATEVER YOU WANT TO BELIEVE.\n"
 line3 = "YOU TAKE THE RED PILL - YOU STAY IN WONDERLAND AND I SHOW YOU HOW DEEP THE RABBIT-HOLE GOES"
