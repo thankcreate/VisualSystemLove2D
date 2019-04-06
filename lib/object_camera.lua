@@ -120,6 +120,14 @@ function createObjectCamera(viewWidth, vecPosition, objParent)
 		self.worldMatrix[4][3] = self.position.z
 		self.worldMatrix[4][4] = 1
 		
+		if self.parent then
+		
+			-- Combine with the parent object's world transformation
+		
+			self.worldMatrix:multiplyAB(self.parent.worldMatrix)
+		
+		end
+		
 		-- Update the view matrix
 		
 		self:updateViewMatrix()

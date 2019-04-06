@@ -137,6 +137,8 @@ function loadFbx(filename)
 						mesh.vertsZ[vertCount] = tonumber(z)
 						
 					end
+					
+					print("Load fbx - Vertex count: " .. vertCount)
 				
 					-- Collect all of the polygon index values
 					
@@ -199,7 +201,7 @@ function loadFbx(filename)
 				
 				-- FOUND: Start of COLOR information
 				
-				if l  and foundColorSet == false then
+				if l and foundColorSet == false then
 				
 					foundColorSet = true
 				
@@ -271,114 +273,123 @@ function loadFbx(filename)
 				end
 				
 				local l = line:match("UV: (.*)")
+				--local l = line:match(" UV: (.*)") -- Include space before "UV:"
 				
 				-- FOUND: Start of VERTEX and TRIANGLE information
 				
 				if l then
 				
-					--print("l: " .. l)
-				
-					-- Collect all of the position values into a long string
+					local lB = line:match("LayerElementUV:")
 					
-					local lineEnd = nil
-				
-					while true do
+					if lB == nil then
 					
-						line = getLine()
+						--print("l: " .. l)
+					
+						-- Collect all of the position values into a long string
 						
-						lineEnd = line:match("UVIndex: (.*)")
+						local lineEnd = nil
+					
+						while true do
 						
-						if lineEnd then
-						
-							break
+							line = getLine()
 							
-						else
-						
-							local ll = line:match("(,.*)")
+							lineEnd = line:match("UVIndex: (.*)")
 							
-							if ll then
+							if lineEnd then
 							
-								l = l .. ll
+								break
 								
-								--print("ll1: " .. ll)
+							else
+							
+								local ll = line:match("(,.*)")
+								
+								if ll then
+								
+									l = l .. ll
+									
+									--print("ll1: " .. ll)
+									
+								end
 								
 							end
 							
 						end
 						
-					end
-					
-					-- Separate string of position values into vectors (XYZ, though Z will be ignored)
-					
-					local uvCount = 0
+						-- Separate string of position values into vectors (XYZ, though Z will be ignored)
+						
+						local uvCount = 0
 
-					for u, v in l:gfind("([^,]+),([^,]+)") do
-					
-						uvCount = uvCount + 1
+						for u, v in l:gfind("([^,]+),([^,]+)") do
 						
-						mesh.u[uvCount] = tonumber(u)
-						mesh.v[uvCount] = tonumber(v)
-						
-						--print(mesh.u[uvCount], mesh.v[uvCount])
-						
-					end
-				
-					-- Collect all of the polygon index values
-					
-					l = lineEnd
-					
-					while true do
-					
-						line = getLine()
-						
-						--lineEnd = line:match("GeometryVersion: (.*)")
-						lineEnd = line:match("(.*): (.*)")
-						
-						if lineEnd then
-						
-							break
+							uvCount = uvCount + 1
 							
-						else
+							mesh.u[uvCount] = tonumber(u)
+							mesh.v[uvCount] = tonumber(v)
+							
+							--print(mesh.u[uvCount], mesh.v[uvCount])
+							
+						end
 						
-							local ll = line:match("(,.*)")
+						print("Load fbx - UV count: " .. uvCount)
+					
+						-- Collect all of the polygon index values
+						
+						l = lineEnd
+						
+						while true do
+						
+							line = getLine()
 							
-							if ll then
+							--lineEnd = line:match("GeometryVersion: (.*)")
+							lineEnd = line:match("(.*): (.*)")
 							
-								l = l .. ll
+							if lineEnd then
+							
+								break
 								
-								--print("ll2: " .. ll)
+							else
+							
+								local ll = line:match("(,.*)")
+								
+								if ll then
+								
+									l = l .. ll
+									
+									--print("ll2: " .. ll)
+									
+								end
 								
 							end
 							
 						end
 						
-					end
-					
-					local uvIndexCount = 0
-					
-					for i in l:gfind("[^,]+") do
-					
-						i = tonumber(i)
+						local uvIndexCount = 0
 						
-						if i < 0 then
+						for i in l:gfind("[^,]+") do
 						
-							i = -i - 1
+							i = tonumber(i)
 							
-							--print("i: " .. i)
+							if i < 0 then
+							
+								i = -i - 1
+								
+								--print("i: " .. i)
+								
+							end
+							
+							uvIndexCount = uvIndexCount + 1
+							
+							--mesh.indices[uvIndexCount] = i + 1
+							
+							--print("found index:", i + 1)
 							
 						end
 						
-						uvIndexCount = uvIndexCount + 1
+						--print("Load fbx - UV index count: " .. uvIndexCount)
 						
-						--mesh.indices[uvIndexCount] = i + 1
-						
-						--print("found index:", i + 1)
+						doneWithMesh = true
 						
 					end
-					
-					print("Load fbx - UV index count: " .. uvIndexCount)
-					
-					doneWithMesh = true
 					
 				end
 				

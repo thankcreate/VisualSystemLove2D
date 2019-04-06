@@ -2,6 +2,8 @@ kirbyLow = createMeshFbx("meshes/file_kirby50.fbx");
 kirbyMiddle = createMeshFbx("meshes/file_kirby100.fbx");
 kirbyHigh = createMeshFbx("meshes/file_kirby500.fbx");
 
+
+
 local x = 0
 local y = 0
 

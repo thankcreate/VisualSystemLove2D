@@ -4,7 +4,7 @@ require('lib/object_text')
 
 function createObjectButton(text, vecExtents, vecPosition, objParent)
 
-	print("create button")
+	--print("create button")
 
 	local obj = createObject(vecPosition, objParent) -- The object that will be returned
 	
@@ -29,7 +29,7 @@ function createObjectButton(text, vecExtents, vecPosition, objParent)
 	
 	if text then
 	
-		obj.textChild = createObjectText(text, "center", "center", vectorCopy(vecExtents), vector(0, 0, 1.0), obj)
+		obj.textChild = createObjectText(text, "center", "center", vectorCopy(vecExtents), vector(0, 0, 0.01), obj)
 	
 		obj.textChild.canDrawSelf = false
 		

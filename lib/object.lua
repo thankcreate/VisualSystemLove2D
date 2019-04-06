@@ -3,6 +3,7 @@ require('lib/color')
 
 globalObjectRoot = nil
 globalObjectCount = 0
+globalObjectScene = ""
 
 -- Create the base object
 
@@ -33,6 +34,7 @@ function createObject(vecPosition, objParent)
 	end
 	
 	obj.type = "base"
+	obj.scene = globalObjectScene
 	obj.isEnabled = true
 	obj.camera = nil
 	obj.canDrawSelf = true

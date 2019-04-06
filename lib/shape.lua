@@ -172,6 +172,8 @@ function createMeshFbx(filename, meshName)
 			
 			for i = 1, #mesh.vertsX do
 			
+				--print("vertex", i, m.u[i], m.v[i])
+			
 				vertices[i] = { m.vertsX[i], m.vertsY[i], m.vertsZ[i], m.u[i], m.v[i], m.colors[i].r, m.colors[i].g, m.colors[i].b, m.colors[i].a, normals[i].x, normals[i].y, normals[i].z }
 				
 			end

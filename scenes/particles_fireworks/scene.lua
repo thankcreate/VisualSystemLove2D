@@ -5,11 +5,9 @@ require(globalScenePath .. 'particle')
 
 function createFirework(x, y, color, delay)
 
-	-- Create particle system	
+	-- Create particle system
 
-
-	-- local image = love.graphics.newImage(globalScenePath .. "images/particle1.png")
-	local image = love.graphics.newImage(globalScenePath .. "images/zero.png")
+	local image = love.graphics.newImage(globalScenePath .. "images/particle1.png")
 	local emitter = createFireworkEmitter(image, color)
 	
 	emitter.timerEmission = delay

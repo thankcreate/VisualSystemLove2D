@@ -39,7 +39,7 @@ mesh = createMeshRectangle(-30, 30, -30, 30, WHITE, WHITE, WHITE, WHITE) -- Crea
 object = createObjectShape(mesh, vector(0, 3), nil) -- Create the object (as child of objectRoot)
 
 object.shader = shaderTexSample
-object.texture = createTexture("images/bkg.png", true)
+object.texture = createTexture("images/pattern.png", true)
 
 object.texture:setWrap("repeat", "repeat") -- Options include: "clamp", "repeat", "mirroredrepeat" 
 object.texture:setFilter("linear", "linear") -- Options include: "nearest", "linear"

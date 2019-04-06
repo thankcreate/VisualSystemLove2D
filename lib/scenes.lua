@@ -91,7 +91,24 @@ function setupScenes()
 		button.scenePath = scenePath
 		
 		function button:action()
+
+			if globalCameraMain then 
+			
+				-- Reset camera position/orientation
+			
+				globalCameraMain.position = vector(0, 0, 50)
+				
+				globalCameraMain.rotationMatrix:identity()
+				
+				globalCameraMain.projectionType = "orthographic"
+
+				globalCameraMain:setViewSize(100)
+				
+				globalCameraMain:updateWorldMatrix()
+			
+			end
 		
+			globalObjectScene = self.textChild.text
 			globalScenePath = self.scenePath
 		
 			local success = loadScene(self.scenePath .. "scene.lua")
@@ -104,22 +121,6 @@ function setupScenes()
 			if success then 
 			
 				globalConsole.panel:hidePanel()
-	
-				if globalCameraMain then 
-				
-					-- Reset camera position/orientation
-				
-					globalCameraMain.position = vector(0, 0, 50)
-					
-					globalCameraMain.rotationMatrix:identity()
-					
-					globalCameraMain.projectionType = "orthographic"
-
-					globalCameraMain:setViewSize(100)
-					
-					globalCameraMain:updateWorldMatrix()
-				
-				end
 				
 			end
 		
@@ -130,6 +131,65 @@ function setupScenes()
 		globalSceneMenu:addButton(button)
 		
 	end
-		
 	
+end
+
+function emptyStencilFunction() end
+
+function closeActiveScene()
+
+	if globalObjectScene ~= "" then
+	
+		print("Closing active scene: " .. globalObjectScene)
+		
+		local searchingForSceneObjects = true
+		
+		while searchingForSceneObjects do
+			
+			for i = 1, globalObjectRoot.childCount do 
+			
+				if globalObjectRoot.children[i].scene == globalObjectScene then
+					
+					--print("removing object belonging to scene: " .. globalObjectRoot.children[i].scene)
+					
+					globalObjectRoot:removeChild(globalObjectRoot.children[i])
+					
+					break
+				
+				end
+				
+				if i == globalObjectRoot.childCount then searchingForSceneObjects = false end
+			
+			end
+			
+		end
+		
+		love.graphics.setStencilTest() -- Clear stencil properties
+		love.graphics.setDepthMode("lequal", true) -- Reset depth test and write mode
+		
+		globalObjectScene = ""
+		
+		globalSceneMenu:enable()
+		
+		globalSceneMenu.canDrawSelf = true
+		globalSceneMenu.canDrawChildren = true
+
+		if globalCameraMain then 
+		
+			-- Reset camera position/orientation
+		
+			globalCameraMain.position = vector(0, 0, 50)
+			
+			globalCameraMain.rotationMatrix:identity()
+			
+			globalCameraMain.projectionType = "orthographic"
+
+			globalCameraMain:setViewSize(100)
+			
+			globalCameraMain:updateWorldMatrix()
+		
+		end
+		
+	end
+
 end

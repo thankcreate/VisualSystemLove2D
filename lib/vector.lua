@@ -86,7 +86,8 @@ function vector(x, y, z)
 	
 		self.x = x
 		self.y = y
-		self.z = z
+		
+		if z ~= nil then self.z = z end
 		
 	end
 	
