@@ -70,7 +70,8 @@ pos = vector(0, -16.8)
 offset = vector(0, 0)
 
 scale = vector(35, 28, 1) 
-scaleAdjust = vector(1, 1, 1)
+-- now the scaleAdjust only adjust the main camera, doesn't effect the object's own scale any more
+scaleAdjust = vector(1, 1, 1) 
 
 cubeMesh = createMeshFbx("meshes/file_haha.fbx")
 cubeObject = createObjectShape(cubeMesh, vector(pos.x, pos.y, 10), textureGroup)
