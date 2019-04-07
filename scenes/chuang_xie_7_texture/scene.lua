@@ -42,7 +42,7 @@ sceneGroup = createObject(vector(0, 0), rootObject)
 cubeMesh = createMeshFbx("meshes/file_haha.fbx")
 cubeObject = createObjectShape(cubeMesh, vector(0, 0, 10), textureGroup)
 
-local scaleVec = vector(10, 8, 1)
+local scaleVec = vector(25, 20, 1)
 cubeObject.scale = scaleVec
 
 function cubeObject:update(dt)
