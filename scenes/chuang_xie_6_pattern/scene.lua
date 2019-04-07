@@ -78,7 +78,7 @@ cubeObject = createObjectShape(cubeMesh, vector(pos.x, pos.y, 10), textureGroup)
 cubeObject.scale = scale
 function cubeObject:update(dt)
 	self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
-	self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
+	-- self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
 end
 
 clipOffset = vector(0, 0);
@@ -88,7 +88,7 @@ cubeObjectClip.scale = scale
 
 function cubeObjectClip:update(dt)
 	self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
-	self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
+	-- self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
 end
 
 
@@ -188,6 +188,10 @@ phaseArray = {
 	vector(-56.25, 2.5, 1),
 	vector(0, 2.5, 1),
 	vector(0, -7.5, 1),
+	vector(0, -7.5, 1.3),
+	vector(0, -7.5, 2.3),
+	vector(-8, 23.75, 6),
+
 	nil
 }
 
@@ -201,7 +205,10 @@ timeTable = {
 	vector(64.8, 68),			-- show 4 leg
 	vector(70.5, 72),			-- show 2 bug
 	vector(76, 78),				-- show 4 love 2d
-	vector(79, 90)				-- x move
+	vector(79, 80),				-- x move
+	vector(81.4, 83),				-- scale big
+	vector(83.7, 89),				-- scale very big
+	vector(89, 100)				-- scale very big
 
 }
 
@@ -280,7 +287,9 @@ function buttonManual:action()
 end
 
 
-
+function updateCamScale()
+	globalCameraMain:setViewSize(100 / scaleAdjust.x)
+end
 
 function rootObject:update(dt)
 	time = time + dt
@@ -288,9 +297,12 @@ function rootObject:update(dt)
 	if manualMode then
 
 	else
+	
 		updateStateUsingTime()
 	end
 	
+	updateCamScale()
+
 	-- print(time)
 	textLine3 = offset.x  .. "     " .. offset.y .. "    " .. scaleAdjust.x
 	objectText.text = textLine1 .. textLine2 ..textLine3
@@ -299,7 +311,7 @@ function rootObject:update(dt)
 	local distance = 0.005
 	if love.keyboard.isDown("up") then clipOffset.y = clipOffset.y + 50 * dt end
 
-	print(globalCameraMain.viewSize.x)
+	-- print(globalCameraMain.viewSize.x)
 
 end
 
