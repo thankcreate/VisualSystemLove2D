@@ -1,6 +1,6 @@
 require("lib/globals")
 
-
+cacheSize = 15
 sliderMode = false
 time = 0
 
@@ -43,7 +43,7 @@ end
 
 
 cache = List.new()
-cacheSize = 10
+
 for i = 1 ,cacheSize do
 	List.pushright(cache, {0, 0, 0, 0, 0})
 end
@@ -126,7 +126,7 @@ offset = vector(0, 0)
 
 scale = vector(35, 28, 1) 
 -- now the scaleAdjust only adjust the main camera, doesn't effect the object's own scale any more
-scaleAdjust = vector(1.2, 1.2, 1.2) 
+scaleAdjust = vector(1.0, 1.0, 1.0) 
 
 cubeMesh = createMeshFbx("meshes/file_haha.fbx")
 
@@ -150,20 +150,29 @@ morpher = createMorpher(cubeMesh)
 cubeObject.scale = scale
 function cubeObject:update(dt)
 	self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
-	-- self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
+	self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
 end
 
 clipOffset = vector(0, 0);
+
+cubeMeshRow = createMeshFbx("meshes/file_haha.fbx")
+morpher2 = createMorpher(cubeMeshRow)
+cubeObjectRow = createObjectShape(cubeMeshRow, vector(pos.x, pos.y, 10), textureGroup2)
+cubeObjectRow.scale = scale
+function cubeObjectRow:update(dt)
+	-- self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
+	self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
+end
+
 cubeMeshClip = createMeshFbx("meshes/file_haha.fbx")
 morpherClip = createMorpher(cubeMeshClip)
-
-cubeObjectClip = createObjectShape(cubeMeshClip, vector(pos.x, pos.y, 10), textureGroup2)
+cubeObjectClip = createObjectShape(cubeMeshClip, vector(pos.x, pos.y, 10), textureGroup3)
 cubeObjectClip.scale = scale
 
 
 function cubeObjectClip:update(dt)
-	self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
-	-- self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
+	-- self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
+	self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
 end
 
 
@@ -177,9 +186,13 @@ patternMesh = createMeshFbx("meshes/file_digged_tilted_wide_digged.fbx")
 patternObject = createObjectShape(patternMesh, vector(0, canvasObjectOffset), sceneGroup)
 patternObject.texture = drawSetCanvas.canvas
 
+patternMesh2 = createMeshFbx("meshes/file_digged_tilted_wide_row.fbx")
+patternObject2 = createObjectShape(patternMesh2, vector(0, canvasObjectOffset), sceneGroup)
+patternObject2.texture = drawSetCanvas2.canvas
+
 patternMeshClip = createMeshFbx("meshes/file_digged_tilted_wide_clipped.fbx")
 patternObjectClip = createObjectShape(patternMeshClip, vector(0, canvasObjectOffset), sceneGroup)
-patternObjectClip.texture = drawSetCanvas2.canvas
+patternObjectClip.texture = drawSetCanvas3.canvas
 
 
 -- Create text instructions
@@ -203,7 +216,7 @@ local menu = createObjectMenu(camera)
 row1SliderLeft = -10
 local buttonSlider1 = createObjectButtonSlider(vector(row1SliderLeft + 0, 35), 16, -100, 100.0, menu)
 local buttonSlider2 = createObjectButtonSlider(vector(row1SliderLeft + 20, 35), 16, -100, 100.0, menu)
-local buttonSlider3 = createObjectButtonSlider(vector(row1SliderLeft + 40, 35), 16, 0.0, 3, menu)
+local buttonSlider3 = createObjectButtonSlider(vector(row1SliderLeft + 40, 35), 16, 0.0, 2, menu)
 
 lerpSliders = {}
 for i = 1, 5 do
@@ -305,7 +318,7 @@ end
 
 
 function updateCamScale()
-	globalCameraMain:setViewSize(100 / scaleAdjust.x)
+	globalCameraMain:setViewSize(100 / 1.1)
 end
 
 lastPressed = -1
@@ -340,6 +353,7 @@ end
 
 function updateMorpherByLerpArray(dt)
 	morpher:reset()
+	morpher2:reset()
 	morpherClip:reset()
 	for i = 1, #cubeMeshArray do
 
@@ -353,7 +367,7 @@ function updateMorpherByLerpArray(dt)
 		end
 		
 		morpher:blendXY(cubeMeshArray[i], lerpArray[i])	
-		
+		morpher2:blendXY(cubeMeshArray[i], lerpArray[i])	
 	end	
 
 	
@@ -369,6 +383,7 @@ function updateMorpherByLerpArray(dt)
 
 
 	morpher:updateMesh()
+	morpher2:updateMesh()
 	morpherClip:updateMesh()
 end
 
@@ -379,10 +394,74 @@ function resetMorpher()
 	morpher:updateMesh()
 end
 
+
+timeOut = 20.4
+timeIn = 42.8
+
+outDt = 2
+inDt = 2
+
+inInAnimation = false
+inOutAnimation = faslse
+
+outY = 70
+inY = 0
+
+outSpeed = (outY - inY ) / outDt
+inSpeed = (inY - outY) / inDt
+
+timeOut = 2
+timeIn = 8
+function checkIfRemoveOthers(dt)
+	
+	if time > timeOut and time < timeIn then
+		inInAnimation = false
+		inOutAnimation = true
+	end
+
+	if time >= timeIn then
+		inInAnimation = true
+		inOutAnimation = false
+	end
+
+	if inOutAnimation then
+		offset.y = offset.y + outSpeed * dt
+		if offset.y > outY then offset.y = outY end
+	end
+
+	if inInAnimation then
+		offset.y = offset.y + inSpeed * dt
+		if offset.y < inY then offset.y = inY end
+	end
+end
+
+
+bpm = 128
+secondPerBeat = 60.0 / 128.0
+beginScaleShakeTime = timeIn
+function updateScaleShake(dt)
+	if time < beginScaleShakeTime then return end
+
+	local rem = time % secondPerBeat
+
+	local diffToMiddle = rem - secondPerBeat / 2
+	if diffToMiddle < 0 then diffToMiddle = -diffToMiddle end
+	
+	local s = diffToMiddle / (secondPerBeat / 2) * 0.1 + 1
+	scaleAdjust.x = s
+	scaleAdjust.y = s
+	scaleAdjust.z = s
+
+	updateSliders()
+end
+
 function rootObject:update(dt)
 	time = time + dt
 
+	checkIfRemoveOthers(dt)
 	updateCamScale()
+
+	updateScaleShake(dt)
 
 
 	-- print(time)
