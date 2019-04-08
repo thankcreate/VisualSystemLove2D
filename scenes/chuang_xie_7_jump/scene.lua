@@ -1,7 +1,7 @@
 require("lib/globals")
 
 
-manualMode = false
+sliderMode = false
 time = 0
 -- Create scene root
 
@@ -57,20 +57,42 @@ sceneGroup.camera = sceneCamera -- Comment out this line to restore default came
 -- cubeMesh = createMeshFbx("meshes/color_cube.fbx")
 -- cubeObject = createObjectShape(cubeMesh, vector(0, 0, 10), textureGroup)
 
-pos = vector(0, -16.8)
+pos = vector(0, -25)
 offset = vector(0, 0)
 
 scale = vector(35, 28, 1) 
 -- now the scaleAdjust only adjust the main camera, doesn't effect the object's own scale any more
-scaleAdjust = vector(1, 1, 1) 
+scaleAdjust = vector(1.2, 1.2, 1.2) 
 
 cubeMesh = createMeshFbx("meshes/file_haha.fbx")
+
+cubeMeshShake = createMeshFbx("meshes/file_haha_shake.fbx")
+cubeMeshLeft = createMeshFbx("meshes/file_haha_left.fbx")
+cubeMeshRight = createMeshFbx("meshes/file_haha_right.fbx")
+cubeMeshCrouch = createMeshFbx("meshes/file_haha_crouch.fbx")
+cubeMeshJumpHigh = createMeshFbx("meshes/file_haha_jump_high.fbx")
+
+
+cubeMeshArray = {cubeMeshShake, cubeMeshLeft, cubeMeshRight, cubeMeshCrouch, cubeMeshJumpHigh}
+lableArray = {"Shake", "Left", "Right", "Crouch", "Jump High"}
+lerpArray = {0, 0, 0, 0, 0}
+lerpSpeedArray = {1, 1, 1, 1, 1}
+baseSpeed = 6 
+
+
+
+
 cubeObject = createObjectShape(cubeMesh, vector(pos.x, pos.y, 10), textureGroup)
+
+
+morpher = createMorpher(cubeMesh)
+morpher:blendXY(cubeMeshCrouch, 0)
+morpher:updateMesh()
  
 cubeObject.scale = scale
 function cubeObject:update(dt)
 	self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
-	self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
+	-- self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
 end
 
 clipOffset = vector(0, 0);
@@ -80,7 +102,7 @@ cubeObjectClip.scale = scale
 
 function cubeObjectClip:update(dt)
 	self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
-	self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
+	-- self.scale = vector(scale.x * scaleAdjust.x, scale.y * scaleAdjust.y, scale.z * scaleAdjust.z)
 end
 
 
@@ -88,13 +110,15 @@ end
 -- Create pattern mesh/object to draw the new canvas texture with
 
 -- patternMesh = createMeshFbx("meshes/pattern_1.fbx")
-patternMesh = createMeshFbx("meshes/file_digged.fbx")
-patternObject = createObjectShape(patternMesh, vector(0, 0), sceneGroup)
+canvasObjectOffset = -6
+
+patternMesh = createMeshFbx("meshes/file_digged_tilted_wide_digged.fbx")
+patternObject = createObjectShape(patternMesh, vector(0, canvasObjectOffset), sceneGroup)
 patternObject.texture = drawSetCanvas.canvas
 
-patternMeshClip = createMeshFbx("meshes/file_digged_clip.fbx")
-patternObjectClip = createObjectShape(patternMeshClip, vector(0, 0), sceneGroup)
-patternObjectClip.texture = drawSetCanvas2.canvas
+patternMeshClip = createMeshFbx("meshes/file_digged_tilted_wide_clipped.fbx")
+patternObjectClip = createObjectShape(patternMeshClip, vector(0, canvasObjectOffset), sceneGroup)
+patternObjectClip.texture = drawSetCanvas.canvas
 
 
 -- Create text instructions
@@ -115,9 +139,55 @@ objectText.textSize = 1.2
 local camera = createObjectCamera(100, vector(0, 0, 50))
 local menu = createObjectMenu(camera)	
 
-local buttonSlider1 = createObjectButtonSlider(vector(0, 35), 16, -100, 100.0, menu)
-local buttonSlider2 = createObjectButtonSlider(vector(20, 35), 16, -100, 100.0, menu)
-local buttonSlider3 = createObjectButtonSlider(vector(40, 35), 16, 0.0, 6, menu)
+row1SliderLeft = -10
+local buttonSlider1 = createObjectButtonSlider(vector(row1SliderLeft + 0, 35), 16, -100, 100.0, menu)
+local buttonSlider2 = createObjectButtonSlider(vector(row1SliderLeft + 20, 35), 16, -100, 100.0, menu)
+local buttonSlider3 = createObjectButtonSlider(vector(row1SliderLeft + 40, 35), 16, 0.0, 3, menu)
+
+lerpSliders = {}
+for i = 1, 5 do
+	local iterPosX = 0 + 18 * (i - 3)
+	lerpSliders[i] = createObjectButtonSlider(vector(iterPosX, 28), 15, 0, 1, menu)
+	lerpSliders[i]:setValue(0)
+	menu:addButton(lerpSliders[i])
+	local ti = createObjectText(lableArray[i], "center", "center", vector(40, 20), vector(iterPosX, 24), menu)
+	ti.color:set(0.5, 0.5, 0.5, 1)
+	ti.lineHeight = 1.3
+	ti.textSize = 1.5
+	
+end
+
+lerpSliders1 = lerpSliders[1]
+lerpSliders2 = lerpSliders[2]
+lerpSliders3 = lerpSliders[3]
+lerpSliders4 = lerpSliders[4]
+lerpSliders5 = lerpSliders[5]
+function lerpSliders1:updateValue(value) 
+	lerpSliderUpdateValue(value, 1)
+end
+function lerpSliders2:updateValue(value) 
+	lerpSliderUpdateValue(value, 2)
+end
+function lerpSliders3:updateValue(value) 
+	lerpSliderUpdateValue(value, 3)
+end
+function lerpSliders4:updateValue(value) 
+	lerpSliderUpdateValue(value, 4)
+end
+function lerpSliders5:updateValue(value) 
+	lerpSliderUpdateValue(value, 5)
+end
+
+function updateSlidersUsingLerpArray()
+	for i = 1, #lerpSliders do
+		lerpSliders[i]:setValue(lerpArray[i])
+	end
+end
+
+function lerpSliderUpdateValue(value, i)
+	lerpArray[i] = value
+end
+
 
 
 function buttonSlider1:updateValue(value) 
@@ -139,6 +209,8 @@ menu:addButton(buttonSlider1)
 menu:addButton(buttonSlider2)
 menu:addButton(buttonSlider3)
 
+
+
 function updateSliders()
 	buttonSlider1:setValue(offset.x)
 	buttonSlider2:setValue(offset.y)
@@ -149,32 +221,94 @@ end
 
 posY = 35
 
-buttonColorLabel = menu:addButton(createObjectButton("Stage", vector(5, 2), vector(-42, posY) ))
-buttonColorPrev = menu:addButton(createObjectButton("<", vector(3, 2), vector(-34, posY)))
-buttonColorNext = menu:addButton(createObjectButton(">", vector(3, 2), vector(-28, posY)))
 
 
-buttonAuto = menu:addButton(createObjectButton("Auto", vector(3, 2), vector(-22, posY )))
-buttonManual = menu:addButton(createObjectButton("Manual", vector(3, 2), vector(-16, posY)))
+buttonAuto = menu:addButton(createObjectButton("KeyMode", vector(5, 2), vector(-42, posY)))
+buttonManual = menu:addButton(createObjectButton("SliderMode", vector(5, 2), vector(-31, posY)))
 
-buttonColorLabel.textChild.textSize = 1.5
-buttonColorPrev.textChild.textSize = 1.5
-buttonColorNext.textChild.textSize = 1.5
 buttonAuto.textChild.textSize = 1.5
 buttonManual.textChild.textSize = 1.5
 
-buttonColorLabel.color = color(0.3, 0.3, 0.3, 1)
 buttonAuto.color = color(0.3, 0.3, 0.3, 1)
 buttonManual.color = color(0.3, 0.3, 0.3, 1)
 
 
+function buttonAuto:action()
+	sliderMode = false
+end
+
+function buttonManual:action()
+	sliderMode = true
+end
 
 
+
+function updateCamScale()
+	globalCameraMain:setViewSize(100 / scaleAdjust.x)
+end
+
+lastPressed = -1
+
+function blendPressed(dt, i)
+	lastPressed = i
+	lerpArray[i] = lerpArray[i] + baseSpeed * lerpSpeedArray[i] * dt
+	if lerpArray[i] > 1 then
+		lerpArray[i] = 1
+	end
+end
+
+function shake(dt)
+	blendPressed(dt, 1)	
+end
+
+function left(dt)
+	blendPressed(dt, 2)
+end
+
+function right(dt)
+	blendPressed(dt, 3)
+end
+
+function crouch(dt)
+	blendPressed(dt, 4)
+end
+
+function jumpHigh(dt)
+	blendPressed(dt, 5)
+end
+
+function updateMorpherByLerpArray(dt)
+	morpher:reset()
+	for i = 1, #cubeMeshArray do
+
+		if sliderMode == false then	
+			if i ~= lastPressed then
+				lerpArray[i] = lerpArray[i] - baseSpeed * lerpSpeedArray[i] * dt
+				if lerpArray[i] < 0 then
+					lerpArray[i] = 0
+				end		
+			end
+			
+			updateSlidersUsingLerpArray()
+		end
+		
+		morpher:blendXY(cubeMeshArray[i], lerpArray[i])
+	end	
+	morpher:updateMesh()
+end
+
+
+
+function resetMorpher()
+	morpher:reset()
+	morpher:updateMesh()
+end
 
 function rootObject:update(dt)
 	time = time + dt
 
-	
+	updateCamScale()
+
 
 	-- print(time)
 	textLine3 = offset.x  .. "     " .. offset.y .. "    " .. scaleAdjust.x
@@ -182,12 +316,30 @@ function rootObject:update(dt)
 
 	-- Control camera position with up/down/left/right
 	local distance = 0.005
-	if love.keyboard.isDown("up") then clipOffset.y = clipOffset.y + 50 * dt end
 
+	if sliderMode then
+		lastPressed = -1
+	elseif love.keyboard.isDown("left") then left(dt) 	
+	elseif love.keyboard.isDown("right") then right(dt) 
+	elseif love.keyboard.isDown("down") then crouch(dt) 
+	elseif love.keyboard.isDown("up") then jumpHigh(dt) 
+	elseif love.keyboard.isDown("space") then shake(dt) 
+	else lastPressed = -1
+	end
+	
+	updateMorpherByLerpArray(dt)
+	print("  " .. lerpArray[1])
+	lerpSliders1:setValue(lerpArray[1])
 	-- print(globalCameraMain.viewSize.x)
 
 end
 
--- src1 = love.audio.newSource(globalScenePath .."music/2001.mp3", "static") 
--- src1:setVolume(0.9) -- 90% of ordinary volume
--- src1:play()
+-- function love.keyreleased(key)
+-- 	if key == "escape" then
+-- 	   love.event.quit()
+-- 	end
+--  end
+
+src1 = love.audio.newSource(globalScenePath .."music/Duck.mp3", "static") 
+src1:setVolume(0.9) -- 90% of ordinary volume
+src1:play()
