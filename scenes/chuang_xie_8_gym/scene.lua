@@ -438,7 +438,7 @@ end
 
 bpm = 128
 secondPerBeat = 60.0 / 128.0
-beginScaleShakeTime = timeIn
+beginScaleShakeTime = 3.5
 function updateScaleShake(dt)
 	if time < beginScaleShakeTime then return end
 
@@ -494,6 +494,6 @@ end
 -- 	end
 --  end
 
-src1 = love.audio.newSource(globalScenePath .."music/Duck.mp3", "static") 
+src1 = love.audio.newSource(globalScenePath .."music/Gym.mp3", "static") 
 src1:setVolume(0.9) -- 90% of ordinary volume
 src1:play()
