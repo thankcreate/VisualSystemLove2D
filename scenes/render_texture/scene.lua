@@ -39,7 +39,7 @@ sceneGroup = createObject(vector(0, 0), rootObject)
 
 -- Create an object to be drawn in texture-group (drawn to the canvas texture)
 
-zcubeMesh = createMeshFbx("meshes/color_cube.fbx")
+cubeMesh = createMeshFbx("meshes/color_cube.fbx")
 cubeObject = createObjectShape(cubeMesh, vector(0, 0, 10), textureGroup)
 
 function cubeObject:update(dt)

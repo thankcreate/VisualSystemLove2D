@@ -111,8 +111,12 @@ end
 -- Input: These functions send input information that you can react to
 --------------------------------------------------------------------------------
 function love.keypressed(key, scancode, isrepeat)
-
-	if key == "1" then
+	
+	if key == "escape" then
+	
+		closeActiveScene()
+		
+	elseif key == "1" then
 		
 		print("Camera Projection: Orthographic")
 		print("Depth Testing: false")
