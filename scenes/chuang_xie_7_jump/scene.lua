@@ -3,6 +3,53 @@ require("lib/globals")
 
 sliderMode = false
 time = 0
+
+
+
+List = {}
+function List.new ()
+	return {first = 0, last = -1}
+end
+
+function List.pushleft (list, value)
+	local first = list.first - 1
+	list.first = first
+	list[first] = value
+end
+
+function List.pushright (list, value)
+	local last = list.last + 1
+	list.last = last
+	list[last] = value
+end
+
+function List.popleft (list)
+	local first = list.first
+	if first > list.last then error("list is empty") end
+	local value = list[first]
+	list[first] = nil        -- to allow garbage collection
+	list.first = first + 1
+	return value
+end
+
+function List.popright (list)
+	local last = list.last
+	if list.first > last then error("list is empty") end
+	local value = list[last]
+	list[last] = nil         -- to allow garbage collection
+	list.last = last - 1
+	return value
+end
+
+
+cache = List.new()
+cacheSize = 10
+for i = 1 ,cacheSize do
+	List.pushright(cache, {0, 0, 0, 0, 0})
+end
+
+
+
 -- Create scene root
 
 rootObject = createObject(vector(0, 0))
@@ -27,7 +74,7 @@ end
 
 
 
--- Create the clip canvas
+-- Create the row canvas
 drawSetCanvas2 = createObject(vector(0, 0), rootObject)
 drawSetCanvas2.canvas = love.graphics.newCanvas(512, 512)
 drawSetCanvas2.canvas:setWrap("clamp", "clamp") -- Options include: "clamp", "repeat", "mirroredrepeat" 
@@ -40,6 +87,23 @@ textureGroup2 = createObject(vector(0, 0), rootObject)
 
 drawResetCanvas2 = createObject(vector(0, 0), rootObject)
 function drawResetCanvas2:draw(camera)	
+	love.graphics.setCanvas(nil)
+end
+
+
+-- Create the 1 canvas
+drawSetCanvas3 = createObject(vector(0, 0), rootObject)
+drawSetCanvas3.canvas = love.graphics.newCanvas(512, 512)
+drawSetCanvas3.canvas:setWrap("clamp", "clamp") -- Options include: "clamp", "repeat", "mirroredrepeat" 
+function drawSetCanvas3:draw(camera)
+	love.graphics.setCanvas({ self.canvas, depth = true })
+	love.graphics.clear(0.0, 0.0, 0.0, 1)
+end
+
+textureGroup3 = createObject(vector(0, 0), rootObject)
+
+drawResetCanvas3= createObject(vector(0, 0), rootObject)
+function drawResetCanvas3:draw(camera)	
 	love.graphics.setCanvas(nil)
 end
 
@@ -80,14 +144,8 @@ lerpSpeedArray = {1, 1, 1, 1, 1}
 baseSpeed = 6 
 
 
-
-
 cubeObject = createObjectShape(cubeMesh, vector(pos.x, pos.y, 10), textureGroup)
-
-
 morpher = createMorpher(cubeMesh)
-morpher:blendXY(cubeMeshCrouch, 0)
-morpher:updateMesh()
  
 cubeObject.scale = scale
 function cubeObject:update(dt)
@@ -97,8 +155,11 @@ end
 
 clipOffset = vector(0, 0);
 cubeMeshClip = createMeshFbx("meshes/file_haha.fbx")
+morpherClip = createMorpher(cubeMeshClip)
+
 cubeObjectClip = createObjectShape(cubeMeshClip, vector(pos.x, pos.y, 10), textureGroup2)
 cubeObjectClip.scale = scale
+
 
 function cubeObjectClip:update(dt)
 	self.position = vector(pos.x + offset.x, pos.y + offset.y, 10)
@@ -118,7 +179,7 @@ patternObject.texture = drawSetCanvas.canvas
 
 patternMeshClip = createMeshFbx("meshes/file_digged_tilted_wide_clipped.fbx")
 patternObjectClip = createObjectShape(patternMeshClip, vector(0, canvasObjectOffset), sceneGroup)
-patternObjectClip.texture = drawSetCanvas.canvas
+patternObjectClip.texture = drawSetCanvas2.canvas
 
 
 -- Create text instructions
@@ -279,22 +340,36 @@ end
 
 function updateMorpherByLerpArray(dt)
 	morpher:reset()
+	morpherClip:reset()
 	for i = 1, #cubeMeshArray do
 
 		if sliderMode == false then	
 			if i ~= lastPressed then
 				lerpArray[i] = lerpArray[i] - baseSpeed * lerpSpeedArray[i] * dt
-				if lerpArray[i] < 0 then
-					lerpArray[i] = 0
-				end		
+				if lerpArray[i] < 0 then lerpArray[i] = 0 end		
 			end
 			
 			updateSlidersUsingLerpArray()
 		end
 		
-		morpher:blendXY(cubeMeshArray[i], lerpArray[i])
+		morpher:blendXY(cubeMeshArray[i], lerpArray[i])	
+		
 	end	
+
+	
+	
+	local delayedData = List.popleft(cache)
+	List.pushright(cache, {lerpArray[1], lerpArray[2], lerpArray[3], lerpArray[4], lerpArray[5]})
+
+	for i = 1, 5 do
+		morpherClip:blendXY(cubeMeshArray[i], delayedData[i])
+	end
+	
+	
+
+
 	morpher:updateMesh()
+	morpherClip:updateMesh()
 end
 
 
@@ -328,7 +403,7 @@ function rootObject:update(dt)
 	end
 	
 	updateMorpherByLerpArray(dt)
-	print("  " .. lerpArray[1])
+	-- print("  " .. lerpArray[1])
 	lerpSliders1:setValue(lerpArray[1])
 	-- print(globalCameraMain.viewSize.x)
 

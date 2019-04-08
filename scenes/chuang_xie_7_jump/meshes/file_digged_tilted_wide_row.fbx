@@ -17,8 +17,8 @@ FBXHeaderExtension:  {
 		Day: 8
 		Hour: 16
 		Minute: 57
-		Second: 30
-		Millisecond: 94
+		Second: 29
+		Millisecond: 956
 	}
 	Creator: "FBX SDK/FBX Plugins version 2018.1.1"
 }
@@ -60,7 +60,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: "Model::file_digged_tilted_wide_clipped1", "Mesh" {
+	Model: "Model::file_digged_tilted_wide_row1", "Mesh" {
 		Version: 232
 		Properties60:  {
 			Property: "QuaternionInterpolate", "enum", "",0
@@ -145,36 +145,45 @@ Objects:  {
 		MultiTake: 0
 		Shading: T
 		Culling: "CullingOff"
-		Vertices: 5.99999237060547,-17.9953231811523,0,18,-17.9953193664551,0,6,-5.99531984329224,0,17.9999961853027,-5.99532175064087
-        ,0
-		PolygonVertexIndex: 0,1,-3,2,1,-4
-		Edges: 0,1,2,4,5
+		Vertices: -17.9999961853027,-17.9953231811523,0,-6,-17.9953193664551,0,-18,-5.99531984329224,0,-6.00000381469727,-5.99532175064087
+        ,0,-5.99999618530273,-12.0000171661377,0,6,-11.999979019165,0,-6,3.814697265625e-06,0,5.99999618530273,1.9073486328125e-06
+        ,0,18.0000038146973,-12,0,30,-11.9999961853027,0,18,3.814697265625e-06,0,29.9999961853027,1.9073486328125e-06,0
+		PolygonVertexIndex: 0,1,-3,2,1,-4,4,5,-7,6,5,-8,8,9,-11,10,9,-12
+		Edges: 0,1,2,4,5,6,7,8,10,11,12,13,14,16,17
 		GeometryVersion: 124
 		LayerElementNormal: 0 {
 			Version: 101
 			Name: ""
 			MappingInformationType: "ByVertice"
 			ReferenceInformationType: "Direct"
-			Normals: 0,0,1,5.88217683852121e-24,0,1,5.88217683852121e-24,0,1,1.17643536770424e-23,0,1
+			Normals: 0,0,1,5.88217683852121e-24,0,1,5.88217683852121e-24,0,1,1.17643536770424e-23,0,1,0,0,1,5.88217683852121e-24,0
+             ,1,5.88217683852121e-24,0,1,1.17643536770424e-23,0,1,0,0,1,5.88217683852121e-24,0,1,5.88217683852121e-24,0,1
+             ,1.17643536770424e-23,0,1
 		}
 		LayerElementColor: 0 {
 			Version: 101
 			Name: "colorSet1"
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "IndexToDirect"
-			Colors: 0.896202623844147,0.686189413070679,0.572094678878784,1,0.896202623844147,0.686189413070679,0.572094678878784
+			Colors: 0.85761684179306,0.569532811641693,0.784766435623169,1,0.85761684179306,0.569532811641693,0.784766435623169,1
+             ,0.85761684179306,0.569532811641693,0.784766435623169,1,0.85761684179306,0.569532811641693,0.784766435623169
+             ,1,0.85761684179306,0.569532811641693,0.784766435623169,1,0.85761684179306,0.569532811641693,0.784766435623169
              ,1,0.896202623844147,0.686189413070679,0.572094678878784,1,0.896202623844147,0.686189413070679,0.572094678878784
              ,1,0.896202623844147,0.686189413070679,0.572094678878784,1,0.896202623844147,0.686189413070679,0.572094678878784
+             ,1,0.896202623844147,0.686189413070679,0.572094678878784,1,0.896202623844147,0.686189413070679,0.572094678878784
+             ,1,0.85761684179306,0.569532811641693,0.784766435623169,1,0.85761684179306,0.569532811641693,0.784766435623169
+             ,1,0.85761684179306,0.569532811641693,0.784766435623169,1,0.85761684179306,0.569532811641693,0.784766435623169
+             ,1,0.85761684179306,0.569532811641693,0.784766435623169,1,0.85761684179306,0.569532811641693,0.784766435623169
              ,1
-			ColorIndex: 0,1,2,3,4,5
+			ColorIndex: 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
 		}
 		LayerElementUV: 0 {
 			Version: 101
 			Name: "map1"
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "IndexToDirect"
-			UV: 0,0,1,0,0,1,1,1
-			UVIndex: 0,1,2,2,1,3
+			UV: 0,0,1,0,0,1,1,1,0,0,1,0,0,1,1,1,0,0,1,0,0,1,1,1
+			UVIndex: 0,1,2,2,1,3,4,5,6,6,5,7,8,9,10,10,9,11
 		}
 		LayerElementMaterial: 0 {
 			Version: 101
@@ -202,7 +211,7 @@ Objects:  {
 				TypedIndex: 0
 			}
 		}
-		NodeAttributeName: "Geometry::file_digged_tilted_wide_clipped1_ncl1_1"
+		NodeAttributeName: "Geometry::file_digged_tilted_wide_row1_ncl1_1"
 	}
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
@@ -217,22 +226,22 @@ Objects:  {
 			Comment: ""
 		}
 		Properties60:  {
-			Property: "DocumentUrl", "KString", "", "G:\JianguoYun\Nutstore\GameCenter\VisualSystem\VisualSystemProject\scenes\chuang_xie_7_jump\meshes\file_digged_tilted_wide_clipped.fbx"
+			Property: "DocumentUrl", "KString", "", "G:\JianguoYun\Nutstore\GameCenter\VisualSystem\VisualSystemProject\scenes\chuang_xie_7_jump\meshes\file_digged_tilted_wide_row.fbx"
              
-			Property: "SrcDocumentUrl", "KString", "", "G:\JianguoYun\Nutstore\GameCenter\VisualSystem\VisualSystemProject\scenes\chuang_xie_7_jump\meshes\file_digged_tilted_wide_clipped.fbx"
+			Property: "SrcDocumentUrl", "KString", "", "G:\JianguoYun\Nutstore\GameCenter\VisualSystem\VisualSystemProject\scenes\chuang_xie_7_jump\meshes\file_digged_tilted_wide_row.fbx"
              
 			Property: "Original", "Compound", ""
 			Property: "Original|ApplicationVendor", "KString", "", "Autodesk"
 			Property: "Original|ApplicationName", "KString", "", "Maya"
 			Property: "Original|ApplicationVersion", "KString", "", "201800"
-			Property: "Original|DateTime_GMT", "DateTime", "", "08/04/2019 20:57:30.088"
-			Property: "Original|FileName", "KString", "", "G:\JianguoYun\Nutstore\GameCenter\VisualSystem\VisualSystemProject\scenes\chuang_xie_7_jump\meshes\file_digged_tilted_wide_clipped.fbx"
+			Property: "Original|DateTime_GMT", "DateTime", "", "08/04/2019 20:57:29.949"
+			Property: "Original|FileName", "KString", "", "G:\JianguoYun\Nutstore\GameCenter\VisualSystem\VisualSystemProject\scenes\chuang_xie_7_jump\meshes\file_digged_tilted_wide_row.fbx"
              
 			Property: "LastSaved", "Compound", ""
 			Property: "LastSaved|ApplicationVendor", "KString", "", "Autodesk"
 			Property: "LastSaved|ApplicationName", "KString", "", "Maya"
 			Property: "LastSaved|ApplicationVersion", "KString", "", "201800"
-			Property: "LastSaved|DateTime_GMT", "DateTime", "", "08/04/2019 20:57:30.088"
+			Property: "LastSaved|DateTime_GMT", "DateTime", "", "08/04/2019 20:57:29.949"
 			Property: "Original|ApplicationActiveProject", "KString", "", "G:\JianguoYun\Nutstore\GameCenter\VisualSystem\VisualSystemProject\scenes\chuang_xie_7_jump"
              
 			Property: "Original|ApplicationNativeFile", "KString", "", "G:\JianguoYun\Nutstore\GameCenter\VisualSystem\Week7\PatternLong.ma"
@@ -296,8 +305,8 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	Connect: "OO", "Model::file_digged_tilted_wide_clipped1", "Model::Scene"
-	Connect: "OO", "Material::lambert2", "Model::file_digged_tilted_wide_clipped1"
+	Connect: "OO", "Model::file_digged_tilted_wide_row1", "Model::Scene"
+	Connect: "OO", "Material::lambert2", "Model::file_digged_tilted_wide_row1"
 }
 ;Takes and animation section
 ;----------------------------------------------------
