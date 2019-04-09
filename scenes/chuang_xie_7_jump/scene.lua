@@ -197,8 +197,8 @@ patternObjectClip.texture = drawSetCanvas3.canvas
 
 -- Create text instructions
 
-textLine1 = "THE PATTERN IS DEFINED BY THE MESH AND ITS UV CONFIGURATION (PRESS 4 TO SEE THE WIREFRAME)\n"
-textLine2 = "NAVIGATE THE SCENE WITH DEFAULT CONTROLS TO MANIPULATE THE PATTERN\n"
+textLine1 = "Chuang Xie 2019\n"
+textLine2 = "Let's Rock!\n"
 textLine3 = ""
 
 objectText = createObjectText(textLine1 .. textLine2 .. textLine3, "center", "center", vector(40, 20), vector(0, -35), sceneGroup)
