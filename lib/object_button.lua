@@ -170,11 +170,12 @@ function createObjectButtonSlider(vecPosition, width, valMin, valMax, objParent)
 	local meshBar = createMeshRectangle(-e.x, e.x, -e.y, e.y, c, c, c, c)
 	local objBar = createObjectShape(meshBar, vecPosition, objParent)
 	
-	objBar.color = color(1, 1, 1, 1)
+	objBar.color = color(1, 1, 1, 0)
 	
 	local obj = createObjectButton(nil, vector(1, 2), vector(0, 0), objBar)
 	
 	obj.isHoldingCount = 0
+	obj.barObject = objBar
 	obj.barWidth = width
 	obj.barValMin = valMin
 	obj.barValMax = valMax
@@ -239,6 +240,44 @@ function createObjectButtonSlider(vecPosition, width, valMin, valMax, objParent)
 		
 		self:updateValue(value)
 		
+	end
+	
+	function obj:setBarMesh(mesh)
+	
+		self.barObject.mesh = mesh
+	
+	end
+	
+	function obj:setBarColor(color)
+	
+		self.barObject.color:copy(color)
+	
+	end
+	
+	function obj:setBarTexture(tex)
+	
+		self.barObject.texture = tex
+	
+	end
+	
+	function obj:setHandleMesh(mesh)
+	
+		self.mesh = mesh
+	
+	end
+	
+	function obj:setHandleColor(color)
+	
+		self.color:copy(color)
+		
+		self.colorDefault:copy(color)
+	
+	end
+	
+	function obj:setHandleTexture(tex)
+	
+		self.texture = tex
+	
 	end
 	
 	return obj
